@@ -1,0 +1,4 @@
+eventually, move all negamax/PVS and alpha-beta pruning stuff 
+out into engine.js and just export position evaluation functions 
+
+prefer positions that give the other side less moves
