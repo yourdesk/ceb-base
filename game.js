@@ -45,7 +45,7 @@ function update_status()
 
 const fight_think_time = 250;
 
-let bot_order = [bot_abq, negamax_d2];
+let bot_order = [bot_negamax2(2), bot_negamax2(3)];
 let order_side = {1: 0, [-1]: 1}; // laziness
 let side = 1;
 async function bot_fight()

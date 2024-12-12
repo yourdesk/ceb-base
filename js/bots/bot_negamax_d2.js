@@ -38,9 +38,11 @@ const negamax_d2 = (function(){
         let max = -Infinity;
         let moves = game.moves();
     
-        if (moves.length === 0) {
-            return -Infinity; // Checkmate or stalemate
-        }
+        if (game.in_checkmate())
+            return -1000000 - depth; // Checkmate
+
+        if (game.in_draw())
+            return 0;
     
         for (let i = 0; i < moves.length; i++) {
             let new_game_move = moves[i];

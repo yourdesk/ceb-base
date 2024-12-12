@@ -1,4 +1,4 @@
-function bot_random(side)
+function bot_random(game, side)
 {
     // generate all moves
     let new_moves = game.moves();

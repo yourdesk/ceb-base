@@ -1,8 +1,11 @@
 const bot_material = (function(){
-    function calculate_material(board) {
+    function calculate_material(board) 
+    {
         let ev = 0;
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
+        for (let i = 0; i < 8; i++) 
+        {
+            for (let j = 0; j < 8; j++) 
+            {
                 ev += piece_value(board[i][j]);
             }
         }
@@ -20,7 +23,8 @@ const bot_material = (function(){
     
     function piece_value(piece) 
     {
-        if (piece === null) {
+        if (piece === null) 
+        {
             return 0;
         }
     
@@ -28,7 +32,7 @@ const bot_material = (function(){
         return piece.color === 'w' ? absoluteValue : -absoluteValue;
     }
     
-    const calc_func = function (game, side)
+    const calc_func = function(game, side)
     {
         // generate all moves
         let new_moves = game.moves();

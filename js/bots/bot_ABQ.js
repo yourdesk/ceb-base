@@ -1,7 +1,7 @@
 window.thoughts_elem = $("#thoughts");
 let q_count = 0;
 let ab_count = 0;
-const bot_abq = (function(){
+const bot_abq = (function(root_depth){
     function calculate_material(board) {
         let ev = 0;
         for (let i = 0; i < 8; i++) {
@@ -70,7 +70,7 @@ const bot_abq = (function(){
     }
 
     let best_move_sf = null;
-    function alphabeta(game, depth, side, alpha, beta) {
+    function alphabeta(game, depth, side, alpha, beta, root_depth) {
         ab_count++;
         if (depth == 0) return quiesce(game, alpha, beta);
         
@@ -79,7 +79,7 @@ const bot_abq = (function(){
     
         if (moves.length === 0) {
             if (game.in_checkmate()) {
-                return -600000 + (2-depth); // Mate score depends on depth.  Lower depth means sooner mate = better.
+                return -600000 + (root_depth-depth); // Mate score depends on depth.  Lower depth means sooner mate = better.
             } else {
                 return 0; // Stalemate
             }
@@ -89,7 +89,7 @@ const bot_abq = (function(){
             let new_game_move = moves[i];
             game.move(new_game_move);
     
-            let score = -alphabeta(game, depth - 1, -side, -beta, -alpha); // Fixed alpha-beta order
+            let score = -alphabeta(game, depth - 1, -side, -beta, -alpha, root_depth); // Fixed alpha-beta order
             game.undo();
     
             if (score > best_value) {
@@ -97,7 +97,7 @@ const bot_abq = (function(){
                 if (score > alpha)
                     alpha = score;
 
-                if (depth === 2) { // Store best move at root level
+                if (depth === root_depth) { // Store best move at root level
                     thoughts_elem.html(
                         `new best move ${new_game_move} with score ${score}<br>` +
                         `q_count: ${q_count}, ab_count: ${ab_count}`
@@ -117,10 +117,10 @@ const bot_abq = (function(){
     {
         q_count = 0;
         ab_count = 0;
-        alphabeta(game, 2, side, -Infinity, Infinity); // Initialize alpha and beta correctly
+        alphabeta(game, root_depth, side, -Infinity, Infinity, root_depth); // Initialize alpha and beta correctly
     
         return best_move_sf;
     }
 
     return calc_func;
-})();
+});
